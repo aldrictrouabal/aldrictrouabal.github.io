@@ -1264,7 +1264,7 @@ addEventListener('keydown',end,{once:true});I.addEventListener('pointerdown',end
 <div class="cinema" id="cinema" role="dialog" aria-modal="true" aria-label="Manifesto film" aria-hidden="true">
   <span class="cinema-title label">AT:D · Manifesto</span>
   <button class="cinema-close" id="cinemaClose">Close</button>
-  <video id="reelFull" src="assets/manifesto.mp4" controls playsinline preload="none" poster="assets/manifesto-poster.jpg"></video>
+  <video id="reelFull" src="assets/manifesto.mp4" controls playsinline preload="none" poster="assets/manifesto-poster.jpg"></video><script>(function(){var v=document.getElementById('reelFull');if(!v)return;v.addEventListener('timeupdate',function(){if(v.currentTime>=62){v.pause();v.currentTime=62;}});})();</script>
 </div>
 <div class="cursor" id="cursor" aria-hidden="true"><div class="cursor-dot"></div><span class="cursor-label" id="cursorLabel">View</span></div>
 <div class="curtain" id="curtain" aria-hidden="true"></div>
