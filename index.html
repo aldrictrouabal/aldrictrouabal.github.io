@@ -3856,7 +3856,7 @@ const setMode = m => {
   try { localStorage.setItem('atd-mode', m); } catch (e) {}
 };
 $$('.idx-mode [data-mode]').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
-try { if (localStorage.getItem('atd-mode') === 'grid') setMode('grid'); } catch (e) {}
+setMode('grid');
 $$('#filters .chip').forEach(ch => ch.addEventListener('click', () => {
   $$('#filters .chip').forEach(c => c.setAttribute('aria-pressed', c === ch));
   const f = ch.dataset.f; let n = 0;
