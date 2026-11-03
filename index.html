@@ -3570,7 +3570,8 @@ const PROJECTS = [
   ],
   "tint": "#cec6be",
   "ch": "Helping teams decide before anything is built",
-  "gridO": "P"
+  "gridO": "P",
+  "gridH": 1.15
  },
  {
   "slug": "audemars-piguet-art-basel",
@@ -3870,7 +3871,7 @@ window.atdLoopRows = (host, groups, opts) => {
   const tile = (p, k, j, copy) => {
     const fv = p.heroVideo ? p.heroVideo.src : ((p.flow || p.imgs || []).find(m => m.v) || {}).v;
     const a = p.gridA || (p.gridO === 'L' ? 1.45 : .78), sh = SH[(k * 3 + j) % SH.length];
-    return `<a class="s-t${fv ? ' has-v' : ''}" href="#${p.slug}" data-link data-cursor="Open"${copy ? ' aria-hidden="true" tabindex="-1"' : ''} style="--h:${sh[0]};--y:${sh[1]};--a:${a};--d:${(j % 4) * 90}ms"><span class="s-i"><img data-src="${img(p.gridImg || p.slug + '-cover')}" alt="${copy ? '' : esc(p.brand) + ', ' + esc(p.ch || p.title)}">${fv ? `<video data-src="${fv}" muted loop playsinline preload="none" aria-hidden="true"></video>` : ''}</span><span class="s-cap"><span class="s-b">${esc(p.brand)}</span><span class="s-ch">${esc(p.ch || p.title)}</span></span></a>`;
+    return `<a class="s-t${fv ? ' has-v' : ''}" href="#${p.slug}" data-link data-cursor="Open"${copy ? ' aria-hidden="true" tabindex="-1"' : ''} style="--h:${p.gridH || sh[0]};--y:${p.gridH ? 0 : sh[1]};--a:${a};--d:${(j % 4) * 90}ms"><span class="s-i"><img data-src="${img(p.gridImg || p.slug + '-cover')}" alt="${copy ? '' : esc(p.brand) + ', ' + esc(p.ch || p.title)}">${fv ? `<video data-src="${fv}" muted loop playsinline preload="none" aria-hidden="true"></video>` : ''}</span><span class="s-cap"><span class="s-b">${esc(p.brand)}</span><span class="s-ch">${esc(p.ch || p.title)}</span></span></a>`;
   };
   host.innerHTML = groups.map((g, k) => `<div class="srow"><div class="s-strip">${[0, 1, 2].map(c => g.map((p, j) => tile(p, k, j, c)).join('')).join('')}</div></div>`).join('');
   const rows = [...host.querySelectorAll('.srow')], N = groups.map(g => g.length);
