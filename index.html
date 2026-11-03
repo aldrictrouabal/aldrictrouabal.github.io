@@ -150,6 +150,7 @@ html.idx-space #v-index .space{margin-top:8px}
 .tellb>.label{display:block}
 .tellb h2{font:italic 400 clamp(38px,5.2vw,88px)/1.02 var(--f-display);letter-spacing:-.02em;max-width:16ch;margin:20px auto 0}
 .tellb-m{margin:clamp(36px,7vh,80px) auto 0;max-width:min(760px,100%)}
+.tellb-m.wide{max-width:min(1080px,100%)}
 .tellb-m img{width:100%;height:auto;display:block}
 .tellb dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,2.6vw,40px);margin:clamp(36px,7vh,80px) 0 0;text-align:left}
 .tellb dl div{border-top:1px solid var(--ink);padding-top:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
@@ -1338,7 +1339,8 @@ const PROJECTS = [
        "A branch drawn in a single line, warm tones that glow from within."
       ]
      ],
-     "img": "kenzo-ikebana-tell-mood"
+     "img": "kenzo-ikebana-tell-mood",
+     "wide": true
     }
    },
    {
@@ -1485,7 +1487,8 @@ const PROJECTS = [
        "The Goat is never drawn: it emerges from the wrapping."
       ]
      ],
-     "img": "hennessy-douce-prosperite-tell-mood"
+     "img": "hennessy-douce-prosperite-tell-mood",
+     "wide": true
     }
    },
    {
@@ -1669,7 +1672,8 @@ const PROJECTS = [
        "Saddle stitch by hand, a fit taken to measure."
       ]
      ],
-     "img": "hermes-headphones-tell-mood"
+     "img": "hermes-headphones-tell-mood",
+     "wide": false
     }
    },
    {
@@ -1850,7 +1854,8 @@ const PROJECTS = [
        "Iron-oxide red, the colour of Martian soil."
       ]
      ],
-     "img": "dreams-of-mars-tell-mood"
+     "img": "dreams-of-mars-tell-mood",
+     "wide": false
     }
    },
    {
@@ -1974,7 +1979,8 @@ const PROJECTS = [
        "Light through the flesh, dew on the glass."
       ]
      ],
-     "img": "caudalie-premier-cru-tell-mood"
+     "img": "caudalie-premier-cru-tell-mood",
+     "wide": false
     }
    },
    {
@@ -2153,7 +2159,8 @@ const PROJECTS = [
        "Joinery without a single nail, cut with the precision of couture."
       ]
      ],
-     "img": "givenchy-capsule-tell-mood"
+     "img": "givenchy-capsule-tell-mood",
+     "wide": false
     }
    },
    {
@@ -2270,7 +2277,8 @@ const PROJECTS = [
        "Petals shading from blush to red, a mirror that multiplies the flowers."
       ]
      ],
-     "img": "lancome-la-vie-est-belle-tell-mood"
+     "img": "lancome-la-vie-est-belle-tell-mood",
+     "wide": false
     }
    },
    {
@@ -2414,7 +2422,8 @@ const PROJECTS = [
        "Light through stone, a gold seam in the veining."
       ]
      ],
-     "img": "dom-perignon-objects-tell-mood"
+     "img": "dom-perignon-objects-tell-mood",
+     "wide": false
     }
    },
    {
@@ -2615,7 +2624,8 @@ const PROJECTS = [
        "Light through water and glass, each scent glowing in its own colour."
       ]
      ],
-     "img": "kenzo-fragrance-universe-tell-mood"
+     "img": "kenzo-fragrance-universe-tell-mood",
+     "wide": true
     }
    },
    {
@@ -2632,12 +2642,6 @@ const PROJECTS = [
    },
    {
     "p": "The design had to embrace contrasts without losing clarity, so each fragrance stands out while contributing to one story. Beyond display, it curates a journey where Kenzo’s vibrant diversity unfolds in an elegant way."
-   },
-   {
-    "f": "kenzo-fragrance-universe-2",
-    "c": "Moodboard",
-    "w": 1600,
-    "h": 1520
    },
    {
     "f": "kenzo-fragrance-universe-3",
@@ -2741,7 +2745,8 @@ const PROJECTS = [
        "Under seven days, before a single sample existed."
       ]
      ],
-     "img": "hennessy-nba-tell-mood"
+     "img": "hennessy-nba-tell-mood",
+     "wide": false
     }
    },
    {
@@ -2883,7 +2888,8 @@ const PROJECTS = [
        "A gradient that fades like the sky at the horizon."
       ]
      ],
-     "img": "all-sun-tell-mood"
+     "img": "all-sun-tell-mood",
+     "wide": false
     }
    },
    {
@@ -2996,7 +3002,8 @@ const PROJECTS = [
        "Each quilted facet, one eau-de-vie in the blend."
       ]
      ],
-     "img": "hennessy-very-special-tell-mood"
+     "img": "hennessy-very-special-tell-mood",
+     "wide": true
     }
    },
    {
@@ -3152,7 +3159,8 @@ const PROJECTS = [
        "The engraving of a nib, the facet of an aluminium body."
       ]
      ],
-     "img": "montblanc-bialetti-tell-mood"
+     "img": "montblanc-bialetti-tell-mood",
+     "wide": false
     }
    },
    {
@@ -3248,7 +3256,8 @@ const PROJECTS = [
        "Plumage blues in frosted glass, a torn paper edge."
       ]
      ],
-     "img": "spirit-of-birds-tell-mood"
+     "img": "spirit-of-birds-tell-mood",
+     "wide": false
     }
    },
    {
@@ -4336,7 +4345,7 @@ function galleryHTML(p) {
   };
   flow.forEach(it => {
     if (it.tell) { flushStrip(); flushText(); flushImgs(); const t = it.tell;
-      html += `<section class="tellb"><span class="label">02 · Tell</span><h2>${esc(T(t.t))}</h2><figure class="tellb-m"><img src="${img(t.img)}" alt="${esc(p.brand)}, Tell moodboard" loading="lazy"></figure><dl>${t.rows.map(([k, v]) => `<div><dt class="label soft">${esc(T(k))}</dt><dd>${esc(T(v))}</dd></div>`).join('')}</dl></section>`; afterTell = true; return; }
+      html += `<section class="tellb"><span class="label">02 · Tell</span><h2>${esc(T(t.t))}</h2><figure class="tellb-m${t.wide ? ' wide' : ''}"><img src="${img(t.img)}" alt="${esc(p.brand)}, Tell moodboard" loading="lazy"></figure><dl>${t.rows.map(([k, v]) => `<div><dt class="label soft">${esc(T(k))}</dt><dd>${esc(T(v))}</dd></div>`).join('')}</dl></section>`; afterTell = true; return; }
     if (afterTell && !opened && (it.f || it.v) && it.g !== 's') { flushText(); flushImgs(); opened = true; n++; const land = it.w / it.h > 1.2;
       html += `<figure class="dopen ${land ? 'land' : 'port'}"><div class="dopen-in">${it.v ? `<video src="${it.v}" poster="${it.poster}" width="${it.w}" height="${it.h}" autoplay muted loop playsinline preload="metadata" aria-label="${esc(it.c)}"></video>` : `<img src="${img(it.f)}" alt="${esc(it.c)}" width="${it.w}" height="${it.h}" loading="lazy" decoding="async">`}</div><figcaption class="label"><span>03 · Design</span><span>${pad(n)} · ${esc(it.c)}</span></figcaption></figure>`; return; }
     if (it.f && it.g === 's') { flushText(); flushImgs(); sbuf.push(it); return; }
