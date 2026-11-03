@@ -1057,6 +1057,14 @@ html.lang-out body{opacity:0;transition:opacity .25s ease}
 .kw-who b{display:block;font:400 21px/1.2 var(--f-display)}
 .kw-who span{display:block;font-size:13px;color:var(--ink-soft);margin-top:6px;line-height:1.4}
 @media (max-width:860px){.kw-it{grid-template-columns:1fr}}
+
+/* project chapters: the method wordmark (T-ell, D-esign) */
+.pw{display:flex;flex-direction:column;align-items:center;gap:14px}
+.pw-n{color:var(--ink-soft)}
+.pw-w{font:400 clamp(64px,8.4vw,140px)/1 var(--f-display);letter-spacing:-.03em;color:var(--ink)}
+.pw-w i{font-style:italic;font-size:.44em;letter-spacing:-.01em;margin-left:.02em}
+.tellb .pw+h2{margin-top:clamp(18px,3vh,32px)}
+.pw-d{grid-column:1/-1;padding-top:clamp(48px,9vh,110px);padding-bottom:clamp(8px,2vh,20px)}
 </style>
 </head>
 <body>
@@ -1790,7 +1798,8 @@ const PROJECTS = [
   },
   "tint": "#e0c1b5",
   "ch": "Turning a lifestyle object into a made-to-measure luxury icon",
-  "gridO": "P"
+  "gridO": "P",
+  "wordmark": true
  },
  {
   "slug": "dreams-of-mars",
@@ -4415,9 +4424,9 @@ function galleryHTML(p) {
   };
   flow.forEach(it => {
     if (it.tell) { flushStrip(); flushText(); flushImgs(); const t = it.tell;
-      html += `<section class="tellb"><span class="label">02 · Tell</span><h2>${esc(T(t.t))}</h2><figure class="tellb-m${t.wide ? ' wide' : ''}"><img src="${img(t.img)}" alt="${esc(p.brand)}, Tell moodboard" loading="lazy"></figure><dl>${t.rows.map(([k, v]) => `<div><dt class="label soft">${esc(T(k))}</dt><dd>${esc(T(v))}</dd></div>`).join('')}</dl></section>`; afterTell = true; return; }
+      html += `<section class="tellb">${p.wordmark !== false ? `<div class="pw"><span class="pw-w" aria-label="Tell">T<i>ell</i></span></div>` : `<span class="label">02 · Tell</span>`}<h2>${esc(T(t.t))}</h2><figure class="tellb-m${t.wide ? ' wide' : ''}"><img src="${img(t.img)}" alt="${esc(p.brand)}, Tell moodboard" loading="lazy"></figure><dl>${t.rows.map(([k, v]) => `<div><dt class="label soft">${esc(T(k))}</dt><dd>${esc(T(v))}</dd></div>`).join('')}</dl></section>`; afterTell = true; return; }
     if (afterTell && !opened && (it.f || it.v) && it.g !== 's') { flushText(); flushImgs(); opened = true; n++; const land = it.w / it.h > 1.2;
-      html += `<figure class="dopen ${land ? 'land' : 'port'}"><div class="dopen-in">${it.v ? `<video src="${it.v}" poster="${it.poster}" width="${it.w}" height="${it.h}" autoplay muted loop playsinline preload="metadata" aria-label="${esc(it.c)}"></video>` : `<img src="${img(it.f)}" alt="${esc(it.c)}" width="${it.w}" height="${it.h}" loading="lazy" decoding="async">`}</div><figcaption class="label"><span>03 · Design</span><span>${pad(n)} · ${esc(it.c)}</span></figcaption></figure>`; return; }
+      html += `${p.wordmark !== false ? `<div class="pw pw-d"><span class="pw-w" aria-label="Design">D<i>esign</i></span></div>` : ''}<figure class="dopen ${land ? 'land' : 'port'}"><div class="dopen-in">${it.v ? `<video src="${it.v}" poster="${it.poster}" width="${it.w}" height="${it.h}" autoplay muted loop playsinline preload="metadata" aria-label="${esc(it.c)}"></video>` : `<img src="${img(it.f)}" alt="${esc(it.c)}" width="${it.w}" height="${it.h}" loading="lazy" decoding="async">`}</div><figcaption class="label"><span>${p.wordmark !== false ? '' : '03 · Design'}</span><span>${pad(n)} · ${esc(it.c)}</span></figcaption></figure>`; return; }
     if (it.f && it.g === 's') { flushText(); flushImgs(); sbuf.push(it); return; }
     flushStrip();
     if (it.f) { flushText(); buf.push(it); } else { flushImgs(); if (it.h) flushText(); tbuf.push(it); }
