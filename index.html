@@ -1064,6 +1064,7 @@ html.lang-out body{opacity:0;transition:opacity .25s ease}
 .pw-w{font:400 clamp(64px,8.4vw,140px)/1 var(--f-display);letter-spacing:-.03em;color:var(--ink)}
 .pw-w i{font-style:italic;font-size:.44em;letter-spacing:-.01em;margin-left:.02em}
 .tellb .pw+h2{margin-top:clamp(18px,3vh,32px)}
+.pw-a{grid-column:1/-1;margin-bottom:clamp(16px,3vh,36px)}
 .pw-d{grid-column:1/-1;padding-top:clamp(48px,9vh,110px);padding-bottom:clamp(8px,2vh,20px)}
 </style>
 </head>
@@ -4402,7 +4403,7 @@ function setupDrag(s) {
 }
 function galleryHTML(p) {
   const flow = p.flow || p.imgs;
-  let html = '', buf = [], tbuf = [], n = 0, ti = 0, lastOdd = false, afterTell = false, opened = false, hk = 0;
+  let html0 = (p.wordmark !== false && !flow.some(it => it.tell)) ? `<div class="pw pw-d"><span class="pw-w" aria-label="Design">D<i>esign</i></span></div>` : '', html = html0, buf = [], tbuf = [], n = 0, ti = 0, lastOdd = false, afterTell = false, opened = false, hk = 0;
   const flushImgs = () => {
     if (!buf.length) return;
     const cls = classesFor(buf);
@@ -4444,7 +4445,7 @@ function renderProject(i) {
       <dl class="p-meta"><div><dt class="label soft">Client</dt><dd>${esc(p.brand)}</dd></div>${p.year ? `<div><dt class="label soft">Year</dt><dd>${esc(p.year)}</dd></div>` : ''}<div><dt class="label soft">Category</dt><dd>${esc(TC(p.cat))}</dd></div><div class="role"><dt class="label soft">Role</dt><dd>${esc(p.expertise.replace(/\.$/, ''))}</dd></div></dl>
     </div>
     <div class="p-cover wrap">${p.heroVideo ? `<video src="${p.heroVideo.src}" poster="${p.heroVideo.poster}" width="${p.heroVideo.w}" height="${p.heroVideo.h}" autoplay muted loop playsinline preload="auto" aria-label="${esc(p.brand)}, ${esc(p.title)}, animation"></video>` : `<img src="${img(p.slug + '-cover')}" alt="${esc(p.brand)}, ${esc(p.title)}" width="${p.cover.w}" height="${p.cover.h}">`}</div>
-    <div class="trame wrap">${p.lede ? `<p class="trame-lede">${esc(T(p.lede))}</p>` : ''}
+    <div class="trame wrap">${p.wordmark !== false ? `<header class="pw pw-a"><span class="pw-w" aria-label="Analyse">A<i>nalyse</i></span></header>` : ''}${p.lede ? `<p class="trame-lede">${esc(T(p.lede))}</p>` : ''}
       <div><span class="label soft">${L[0]}</span><p>${esc(p.moment)}</p></div>
       <div><span class="label soft">${L[1]}</span><p>${esc(p.idea)}</p></div>
       <div><span class="label soft">${L[2]}</span><p>${esc(p.outcome)}</p></div>
