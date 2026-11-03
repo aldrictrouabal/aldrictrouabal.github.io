@@ -974,6 +974,32 @@ html.lang-out body{opacity:0;transition:opacity .25s ease}
   .loader{display:none}
   html.has-intro .intro{display:none}
 }
+
+/* services triptych */
+#svc .svc-label{display:block;margin-bottom:clamp(22px,4vh,40px)}
+#svc .tri{display:flex;gap:6px;height:min(82vh,820px);max-width:calc(1600px + 2 * var(--pad));margin-inline:auto}
+#svc .pn{position:relative;flex:1 1 0;min-width:0;overflow:hidden;cursor:pointer;transition:flex-grow 1.1s cubic-bezier(.16,1,.3,1);color:#ecebe7;outline:none}
+#svc .pn.on{flex-grow:2.6}
+#svc .pn-md{position:absolute;inset:0;background:#1d1d1b}
+#svc .pn-md img,#svc .pn-md video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.06);transition:transform 1.6s cubic-bezier(.16,1,.3,1),opacity 1.4s ease}
+#svc .pn.on .pn-md img,#svc .pn.on .pn-md video{transform:scale(1)}
+#svc .pn-cyc img{opacity:0}#svc .pn-cyc img.vis{opacity:1}
+#svc .pn::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(20,20,19,.15) 0%,rgba(20,20,19,0) 35%,rgba(20,20,19,.8) 100%);transition:background .8s}
+#svc .pn:not(.on)::after{background:linear-gradient(180deg,rgba(20,20,19,.35),rgba(20,20,19,.55) 60%,rgba(20,20,19,.85))}
+#svc .pn-n{position:absolute;z-index:2;top:clamp(18px,2vw,30px);left:clamp(20px,2.6vw,40px);color:rgba(236,235,231,.8)}
+#svc .pn-ct{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:clamp(20px,2.6vw,40px)}
+#svc .pn-t{margin:0;font:400 clamp(40px,4.4vw,76px)/.95 var(--f-display);letter-spacing:-.02em;white-space:nowrap;transition:font-size .9s cubic-bezier(.16,1,.3,1)}
+#svc .pn-t em{font-style:italic}
+#svc .pn:not(.on) .pn-t{font-size:clamp(26px,2.3vw,40px);white-space:normal}
+#svc .pn-more{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows 1s cubic-bezier(.16,1,.3,1),opacity .6s ease}
+#svc .pn.on .pn-more{grid-template-rows:1fr;opacity:1;transition-delay:.25s}
+#svc .pn-more>div{overflow:hidden;display:flex;flex-direction:column;gap:14px;padding-top:18px}
+#svc .pn-lede{margin:0;font:italic 400 clamp(19px,1.5vw,24px)/1.3 var(--f-display)}
+#svc .pn-txt{margin:0;font-size:15px;line-height:1.6;color:rgba(236,235,231,.8);max-width:46ch}
+#svc .pn-chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+#svc .pn-chips li{font:500 10.5px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(236,235,231,.35);border-radius:999px;padding:9px 13px}
+@media (max-width:860px){#svc .tri{flex-direction:column;height:auto;gap:10px}#svc .pn{height:72vh;flex:none}#svc .pn-more{grid-template-rows:1fr;opacity:1}#svc .pn::after,#svc .pn:not(.on)::after{background:linear-gradient(180deg,rgba(20,20,19,.12) 0%,rgba(20,20,19,.5) 38%,rgba(20,20,19,.9) 100%)}#svc .pn .pn-t,#svc .pn:not(.on) .pn-t{white-space:normal;font-size:clamp(38px,10vw,56px)}}
+@media (prefers-reduced-motion:reduce){#svc .pn,#svc .pn-md img,#svc .pn-md video{transition:none}}
 </style>
 </head>
 <body>
@@ -1054,27 +1080,26 @@ addEventListener('keydown',end,{once:true});I.addEventListener('pointerdown',end
   </div>
 
   <section class="svc" id="svc" aria-label="Services">
-    <div class="svc-in wrap">
-      <span class="label svc-label">Services</span>
-      <div class="svc-list">
-        <article class="svc-item" data-k="0">
-          <button class="svc-row" aria-expanded="false"><span class="svc-n">01</span><span class="svc-t">Retail <em>&amp; pop-up</em></span><span class="svc-plus" aria-hidden="true"></span></button>
-          <div class="svc-body"><div class="svc-inner"><p class="svc-lede">Spaces that carry a launch.</p><p>Designed to stop the passer-by and put the product centre stage, then made precise enough to travel from the flagship to every market.</p><ul><li>Pop-up &amp; launch space</li><li>Counter &amp; window</li><li>Display &amp; glorifier</li><li>Roll-out drawings</li></ul><div class="svc-mm"></div></div></div>
-        </article>
-        <article class="svc-item" data-k="1">
-          <button class="svc-row" aria-expanded="false"><span class="svc-n">02</span><span class="svc-t">Packaging <em>&amp; objects</em></span><span class="svc-plus" aria-hidden="true"></span></button>
-          <div class="svc-body"><div class="svc-inner"><p class="svc-lede">Desirable on shelf.</p><p>Objects people want to keep: volume, material and finish worked until the piece feels right in the hand, then taken all the way to production.</p><ul><li>Bottle &amp; cap</li><li>Coffret &amp; gift edition</li><li>Rituals &amp; accessories</li><li>Production files</li></ul><div class="svc-mm"></div></div></div>
-        </article>
-        <article class="svc-item" data-k="2">
-          <button class="svc-row" aria-expanded="false"><span class="svc-n">03</span><span class="svc-t">Images <em>&amp; film</em></span><span class="svc-plus" aria-hidden="true"></span></button>
-          <div class="svc-body"><div class="svc-inner"><p class="svc-lede">Visible before it exists.</p><p>So teams can align, markets can sell in and decisions are taken long before anything is built or produced.</p><ul><li>Key visuals</li><li>Product films</li><li>Space visualisation</li><li>Window concepts</li></ul><div class="svc-mm"></div></div></div>
-        </article>
-      </div>
-      <div class="svc-media" aria-hidden="true">
-        <div class="svc-frame">
-        </div>
-        <div class="svc-cap label"><span id="svcCap">Kenzo, Flower Ikebana</span><span id="svcNum"></span></div>
-      </div>
+    <div class="wrap"><span class="label svc-label">Services</span></div>
+    <div class="tri wrap">
+      <article class="pn on" data-k="0" tabindex="0">
+        <div class="pn-md" aria-hidden="true"><video data-src="assets/kenzo-popup-film.mp4" poster="assets/kenzo-popup-film.jpg" muted loop playsinline preload="none"></video></div>
+        <span class="pn-n label">01</span>
+        <div class="pn-ct"><h3 class="pn-t">Retail <em>&amp; pop-up</em></h3>
+          <div class="pn-more"><div><p class="pn-lede">Spaces that carry a launch.</p><p class="pn-txt">Designed to stop the passer-by and put the product centre stage, then made precise enough to travel from the flagship to every market.</p><ul class="pn-chips"><li>Pop-up &amp; launch space</li><li>Counter &amp; window</li><li>Display &amp; glorifier</li><li>Roll-out drawings</li></ul></div></div></div>
+      </article>
+      <article class="pn" data-k="1" tabindex="0">
+        <div class="pn-md" aria-hidden="true"><div class="pn-cyc"><img src="assets/img/svc-pair-hennessy.webp" alt="" loading="lazy" class="vis"><img src="assets/img/svc-pair-mars.webp" alt="" loading="lazy"><img src="assets/img/svc-pair-montblanc.webp" alt="" loading="lazy"><img src="assets/img/svc-pair-spirit.webp" alt="" loading="lazy"><img src="assets/img/svc-pair-hennessy-nba.webp" alt="" loading="lazy"><img src="assets/img/svc-pair-objects.webp" alt="" loading="lazy"></div></div>
+        <span class="pn-n label">02</span>
+        <div class="pn-ct"><h3 class="pn-t">Packaging <em>&amp; objects</em></h3>
+          <div class="pn-more"><div><p class="pn-lede">Desirable on shelf.</p><p class="pn-txt">Objects people want to keep: volume, material and finish worked until the piece feels right in the hand, then taken all the way to production.</p><ul class="pn-chips"><li>Bottle &amp; cap</li><li>Coffret &amp; gift edition</li><li>Rituals &amp; accessories</li><li>Production files</li></ul></div></div></div>
+      </article>
+      <article class="pn" data-k="2" tabindex="0">
+        <div class="pn-md" aria-hidden="true"><video data-src="assets/givenchy-capsule-film.mp4" poster="assets/givenchy-capsule-film.jpg" muted loop playsinline preload="none"></video></div>
+        <span class="pn-n label">03</span>
+        <div class="pn-ct"><h3 class="pn-t">Images <em>&amp; film</em></h3>
+          <div class="pn-more"><div><p class="pn-lede">Visible before it exists.</p><p class="pn-txt">So teams can align, markets can sell in and decisions are taken long before anything is built or produced.</p><ul class="pn-chips"><li>Key visuals</li><li>Product films</li><li>Space visualisation</li><li>Window concepts</li></ul></div></div></div>
+      </article>
     </div>
   </section>
 
@@ -3947,84 +3972,16 @@ function spaceFrame() {
 }
 
 
-/* ---------- services ---------- */
+/* ---------- services: a living triptych ---------- */
 (() => {
-  const items = [...document.querySelectorAll('.svc-item')];
-  /* each service: a reel of full-page boards (images and films) rolling upward, like the AT:D method */
-  const V = (v, c, bg, fit) => ({ v, c, bg, fit }), I = (i, c) => ({ i, c });
-  const SV = [
-    [V('kenzo-popup-film', 'Kenzo, Flower Ikebana pop-up', '', 'cover'), I('kenzo-fragrance-universe-1', 'Kenzo, with Mathieu Lehanneur'), I('lancome-la-vie-est-belle-1', 'Lancôme, La Vie est Belle'), I('audemars-piguet-art-basel-1', 'Audemars Piguet, Art Basel')],
-    [V('all-sun-hero', 'All Sun, packaging film', '#d6d6d6', 'contain'), I('pair-hennessy', 'Hennessy, Chinese New Year coffret'), V('hermes-hero', 'Hermès, made-to-measure headphones', '#eaeaea', 'contain'), I('pair-mars', 'Dreams of Mars'), I('caudalie-premier-cru-s02', 'Caudalie, Premier Cru'), V('bottles-lab-1', 'Bottle studies', '#f3f2ee', 'contain'), I('pair-spirit', 'Spirit of Birds'), I('veuve-clicquot-say-it-2', 'Veuve Clicquot'), I('pair-montblanc', 'Montblanc × Bialetti'), I('pair-hennessy-nba', 'Hennessy × NBA'), I('pair-objects', 'Objects')],
-    [I('pair-ap', 'Audemars Piguet Royal Oak'), V('lancome-hero', 'Lancôme, film', '#000', 'contain'), V('givenchy-capsule-film', 'Givenchy, capsule film', '#000', 'cover'), V('petal-chair-hero', 'Petal chair, film', '', 'cover'), V('kenzo-ikebana-hero', 'Kenzo, Flower Ikebana film', '', 'cover'), I('hermes-headphones-s11', 'Hermès, in store')]
-  ];
-  const pageHTML = m => m.v
-    ? `<div class="msc-page svc-pg" data-c="${esc(m.c)}" style="${m.bg ? 'background:' + m.bg : ''}"><video data-src="assets/${m.v}.mp4" poster="assets/${m.v}.jpg" muted loop playsinline preload="none" aria-hidden="true" style="object-fit:${m.fit || 'cover'}"></video></div>`
-    : `<div class="msc-page svc-pg" data-c="${esc(m.c)}"><img src="${img('svc-' + m.i)}" alt="" loading="lazy"></div>`;
-  const reelHTML = (g, k) => `<div class="svc-reel svc-fade" data-k="${k}"><div class="msc-track">${g.map(pageHTML).join('')}</div></div>`;
-  const frame = document.querySelector('.svc-frame');
-  frame.innerHTML = SV.map(reelHTML).join('');
-  items.forEach((it, k) => { it.querySelector('.svc-mm').innerHTML = reelHTML(SV[k], k); });
-  const mobile = () => innerWidth <= 900;
-  let k = -1, vk = 0;
-  const inView = () => { const r = document.getElementById('svc').getBoundingClientRect(); return current === 'work' && r.bottom > 0 && r.top < innerHeight; };
-  const reels = [...document.querySelectorAll('.svc-reel')];
-  const R = new Map();
-  reels.forEach(reel => {
-    const tr = reel.querySelector('.msc-track'), n = +SV[+reel.dataset.k].length;
-    const st = { i: 0, hover: false };
-    reel.addEventListener('mouseenter', () => st.hover = true); reel.addEventListener('mouseleave', () => st.hover = false);
-    /* one visual at a time: a slow crossfade with a light zoom */
-    st.place = () => { [...tr.children].forEach((p, j) => p.classList.toggle('on', j === st.i)); };
-    st.cur = () => tr.children[st.i];
-    st.step = () => { st.i = (st.i + 1) % n; st.place(); };
-    st.place();
-    R.set(reel, st);
-  });
-  const activeReel = () => mobile() ? (k >= 0 ? items[k].querySelector('.svc-reel') : null) : frame.querySelector(`.svc-reel[data-k="${vk}"]`);
-  const syncVideos = () => {
-    const a = activeReel(), on = inView();
-    document.querySelectorAll('.svc-pg video').forEach(v => {
-      const pg = v.parentElement, r = pg.closest('.svc-reel'), st = R.get(r);
-      const ix = [...r.querySelectorAll('.svc-pg')].indexOf(pg), nn = SV[+r.dataset.k].length;
-      const near = r === a && on && st && (ix === st.i || ix === (st.i + 1) % nn);
-      if (near) { if (v.dataset.src) { v.src = v.dataset.src; v.removeAttribute('data-src'); } const p = v.play(); if (p && p.catch) p.catch(() => {}); }
-      else if (!v.paused) v.pause();
-    });
-    if (a) { const c = document.getElementById('svcCap'); const cur = R.get(a).cur(); if (c && cur) c.textContent = T(cur.dataset.c); }
-  };
-  const render = () => {
-    const a = activeReel();
-    frame.querySelectorAll('.svc-reel').forEach(r => r.classList.toggle('on', r === a));
-    if (a) R.get(a).place();
-    syncVideos();
-  };
-  /* auto: once a service has shown all its boards, the next one opens (desktop, until the visitor picks one) */
-  let auto = true;
-  setInterval(() => {
-    const a = activeReel(); if (!a || reduce || document.hidden || !inView()) return;
-    const st = R.get(a);
-    if (auto && !mobile() && st.i >= SV[+a.dataset.k].length - 1) { const nx = (vk + 1) % SV.length; const ns = R.get(frame.querySelector(`.svc-reel[data-k="${nx}"]`)); if (ns) ns.i = 0; openK(nx); return; }
-    st.step(); setTimeout(syncVideos, 50);
-  }, 5600);
-  const showV = i => { if (k >= 0) return; if (vk !== i) vk = i; render(); };
-  const openK = i => {
-    k = i; vk = i;
-    items.forEach((it, x) => { it.classList.toggle('on', x === k); it.querySelector('.svc-row').setAttribute('aria-expanded', x === k); });
-    render();
-  };
-  const setK = i => {
-    auto = false;
-    k = (k === i) ? -1 : i;
-    items.forEach((it, x) => { it.classList.toggle('on', x === k); it.querySelector('.svc-row').setAttribute('aria-expanded', x === k); });
-    if (k >= 0) vk = k; render();
-  };
-  items.forEach((it, i) => {
-    it.querySelector('.svc-row').addEventListener('click', () => setK(i));
-    it.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse' && !mobile()) showV(i); });
-  });
-  let sct; addEventListener('scroll', () => { clearTimeout(sct); sct = setTimeout(syncVideos, 150); }, { passive: true });
-  addEventListener('resize', render);
-  setTimeout(() => openK(0), 600);
+  const sec = document.getElementById('svc'); if (!sec) return;
+  const pns = [...sec.querySelectorAll('.pn')], red = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const act = p => pns.forEach(x => x.classList.toggle('on', x === p));
+  pns.forEach(p => { p.addEventListener('mouseenter', () => { if (matchMedia('(hover: hover)').matches) act(p); }); p.addEventListener('click', () => act(p)); p.addEventListener('focus', () => act(p)); });
+  const vids = [...sec.querySelectorAll('video')];
+  const io = new IntersectionObserver(es => es.forEach(en => { const v = en.target; if (en.isIntersecting) { if (v.dataset.src) { v.src = v.dataset.src; v.removeAttribute('data-src'); } const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); } else if (!v.paused) v.pause(); }), { threshold: 0.15 });
+  vids.forEach(v => io.observe(v));
+  sec.querySelectorAll('.pn-cyc').forEach(c => { const ims = [...c.children]; let k = 0; if (!red && ims.length > 1) setInterval(() => { if (document.hidden) return; const r = sec.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return; ims[k].classList.remove('vis'); k = (k + 1) % ims.length; ims[k].classList.add('vis'); }, 3800); });
 })();
 
 /* ---------- client words ---------- */
