@@ -81,10 +81,10 @@ em{font-style:italic}
 /* ---------- intro (first visit of the session, home only): black, the name, the work, then the film ---------- */
 .intro{display:none}
 html.has-intro .loader{display:none}
-html.has-intro .intro{display:block;position:fixed;inset:0;z-index:100;pointer-events:auto;animation:introKill 0s linear 7s forwards}
+html.has-intro .intro{display:block;position:fixed;inset:0;z-index:100;pointer-events:auto;animation:introKill 0s linear 3s forwards}
 html.intro-run,html.intro-run body{overflow:hidden}
 @keyframes introKill{to{visibility:hidden}}
-.intro.done{opacity:0;transition:opacity .45s ease}
+.intro.done{opacity:0;transition:opacity .6s ease}
 .in-black{position:absolute;inset:0;background:#141413;transition:opacity 1.1s ease}
 .in-black.off{opacity:0}
 .in-name{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);padding:0 20px;text-align:center;font:400 clamp(36px,5.6vw,96px)/1 var(--f-display);letter-spacing:-.02em;color:#ecebe7;transition:opacity .5s ease}
@@ -1083,21 +1083,15 @@ html.lang-out body{opacity:0;transition:opacity .25s ease}
 
 
 <script>(function(){try{var h=location.hash;var bk=null;try{bk=JSON.parse(sessionStorage.getItem('atd-back')||'null')}catch(e){}if((h===''||h==='#'||h==='#work')&&!(bk&&Date.now()-bk.t<15000)&&!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)){document.documentElement.classList.add('has-intro','intro-run')}}catch(e){}})();</script>
-<div class="intro" id="intro" aria-hidden="true"><div class="in-black" id="inBlack"></div><div class="in-name" id="inName"><span class="in-ln"><span>Aldric</span></span> <span class="in-ln"><span>Trouabal</span></span> <span class="in-ln"><span><em>Design</em></span></span></div><div class="in-book" id="inBook"><img src="assets/img/hennessy-douce-prosperite-card.webp" alt=""><img src="assets/img/hermes-headphones-card.webp" alt=""><img src="assets/img/all-sun-card.webp" alt=""><img src="assets/img/dreams-of-mars-card.webp" alt=""><img src="assets/img/givenchy-capsule-card.webp" alt=""><img class="in-film" src="assets/manifesto-start.jpg" alt=""></div></div>
+<div class="intro" id="intro" aria-hidden="true"><div class="in-black" id="inBlack"></div><div class="in-name" id="inName"><span class="in-ln"><span>Aldric</span></span> <span class="in-ln"><span>Trouabal</span></span> <span class="in-ln"><span><em>Design</em></span></span></div></div>
 <script>(function(){var H=document.documentElement;if(!H.classList.contains('has-intro'))return;
-var I=document.getElementById('intro'),B=document.getElementById('inBlack'),N=document.getElementById('inName'),K=document.getElementById('inBook'),im=K.querySelectorAll('img:not(.in-film)'),F=K.querySelector('.in-film'),ts=[],over=false;
+var I=document.getElementById('intro'),N=document.getElementById('inName'),ts=[],over=false;
 function T(f,ms){ts.push(setTimeout(f,ms))}
 function V(){return document.getElementById('reelBg')}
 function hold(){var v=V();if(!v)return;try{v.pause();if(v.readyState>=1)v.currentTime=12}catch(e){}}
 var hv=setInterval(function(){if(over){clearInterval(hv);return}hold()},120);
 function end(){if(over)return;over=true;ts.forEach(clearTimeout);var L=document.querySelector('.loader');if(L)L.parentNode.removeChild(L);clearInterval(hv);var v=V();if(v){try{v.currentTime=12}catch(e){}var pp=v.play();if(pp&&pp.catch)pp.catch(function(){})}I.classList.add('done');H.classList.remove('intro-run');setTimeout(function(){H.classList.remove('has-intro');if(I.parentNode)I.parentNode.removeChild(I)},480)}
-function grow(){var r=K.getBoundingClientRect(),f=document.getElementById('reelFrame');if(!f){end();return}var t=f.getBoundingClientRect();
-K.style.transform='none';K.style.left=r.left+'px';K.style.top=r.top+'px';K.style.width=r.width+'px';K.style.height=r.height+'px';K.style.aspectRatio='auto';void K.offsetWidth;
-K.style.transition='left 1.3s cubic-bezier(.65,0,.2,1),top 1.3s cubic-bezier(.65,0,.2,1),width 1.3s cubic-bezier(.65,0,.2,1),height 1.3s cubic-bezier(.65,0,.2,1)';
-K.style.left=t.left+'px';K.style.top=t.top+'px';K.style.width=t.width+'px';K.style.height=t.height+'px';F.classList.add('on');T(function(){B.style.transition='opacity .6s ease';B.classList.add('off')},1050)}
-T(function(){N.classList.add('on')},80);T(function(){N.style.opacity=0},1500);
-for(var k=0;k<im.length;k++)(function(k){T(function(){im[k].classList.add('on')},1800+k*260)})(k);
-var e=1800+im.length*260+250;T(grow,e);T(end,e+1750);
+T(function(){N.classList.add('on')},80);T(end,1900);
 addEventListener('keydown',end,{once:true});I.addEventListener('pointerdown',end);addEventListener('wheel',end,{once:true,passive:true});addEventListener('touchmove',end,{once:true,passive:true});
 })();</script>
 <div class="loader" aria-hidden="true"><div class="loader-mark"><svg class="atd ld-atd" viewBox="0 0 240 120" aria-hidden="true"><text x="117" y="96" text-anchor="end" font-family="Newsreader, serif" font-size="96" font-weight="500" fill="currentColor">AT</text><circle cx="135" cy="53" r="7" fill="currentColor"/><circle cx="135" cy="87" r="7" fill="currentColor"/><text x="152" y="96" font-family="Newsreader, serif" font-size="96" font-weight="500" fill="currentColor">D</text></svg><span class="ld-word">Aldric Trouabal<i>Designer</i></span></div><div class="loader-line"></div></div>
