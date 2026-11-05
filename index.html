@@ -1160,7 +1160,7 @@ addEventListener('keydown',end,{once:true});I.addEventListener('pointerdown',end
           <div class="pn-more"><div><p class="pn-lede">Spaces that carry a launch.</p><p class="pn-txt">Designed to stop the passer-by and put the product centre stage, then made precise enough to travel from the flagship to every market.</p><ul class="pn-chips"><li>Pop-up &amp; launch space</li><li>Counter &amp; window</li><li>Display &amp; glorifier</li><li>Roll-out drawings</li></ul></div></div></div>
       </article>
       <article class="pn" data-k="1" tabindex="0">
-        <div class="pn-md" aria-hidden="true"><div class="pn-cyc"><img src="assets/img/svc-pair-hennessy.webp" alt="" loading="lazy" class="vis"><img src="assets/img/svc-pair-mars.webp" alt="" loading="lazy"><img src="assets/img/svc-pair-montblanc.webp" alt="" loading="lazy"><img src="assets/img/svc-pair-spirit.webp" alt="" loading="lazy"><img src="assets/img/svc-pair-hennessy-nba.webp" alt="" loading="lazy"><img src="assets/img/svc-pair-objects.webp" alt="" loading="lazy"></div></div>
+        <div class="pn-md" aria-hidden="true"><div class="pn-cyc"><img src="assets/img/svc-pair-hennessy.webp" data-m="assets/img/svc-pair-hennessy-m.webp" alt="" loading="lazy" class="vis"><img src="assets/img/svc-pair-mars.webp" data-m="assets/img/svc-pair-mars-m.webp" alt="" loading="lazy"><img src="assets/img/svc-pair-montblanc.webp" data-m="assets/img/svc-pair-montblanc-m.webp" alt="" loading="lazy"><img src="assets/img/svc-pair-spirit.webp" data-m="assets/img/svc-pair-spirit-m.webp" alt="" loading="lazy"><img src="assets/img/svc-pair-hennessy-nba.webp" data-m="assets/img/svc-pair-hennessy-nba-m.webp" alt="" loading="lazy"><img src="assets/img/svc-pair-objects.webp" data-m="assets/img/svc-pair-objects-m.webp" alt="" loading="lazy"></div></div>
         <span class="pn-n label">02</span>
         <div class="pn-ct"><h3 class="pn-t">Packaging <em>&amp; objects</em></h3>
           <div class="pn-more"><div><p class="pn-lede">Desirable on shelf.</p><p class="pn-txt">Objects people want to keep: volume, material and finish worked until the piece feels right in the hand, then taken all the way to production.</p><ul class="pn-chips"><li>Bottle &amp; cap</li><li>Coffret &amp; gift edition</li><li>Rituals &amp; accessories</li><li>Production files</li></ul></div></div></div>
@@ -4268,6 +4268,7 @@ function spaceFrame() {
   const vids = [...sec.querySelectorAll('video')];
   const io = new IntersectionObserver(es => es.forEach(en => { const v = en.target; if (en.isIntersecting) { if (v.dataset.src) { v.src = v.dataset.src; v.removeAttribute('data-src'); } const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); } else if (!v.paused) v.pause(); }), { threshold: 0.15 });
   vids.forEach(v => io.observe(v));
+  if (matchMedia('(max-width:860px)').matches) sec.querySelectorAll('.pn-cyc img[data-m]').forEach(i => { i.src = i.dataset.m; });
   sec.querySelectorAll('.pn-cyc').forEach(c => { const ims = [...c.children]; let k = 0; if (!red && ims.length > 1) setInterval(() => { if (document.hidden) return; const r = sec.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return; ims[k].classList.remove('vis'); k = (k + 1) % ims.length; ims[k].classList.add('vis'); }, 3800); });
 })();
 
