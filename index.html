@@ -1041,7 +1041,17 @@ html.lang-out body{opacity:0;transition:opacity .25s ease}
  .matd[data-s] .matd-word{font-size:clamp(52px,14vw,84px)}
  .matd-prog{top:calc(env(safe-area-inset-top,0px) + 76px)}
  .matd[data-s] .matd-word{top:calc(env(safe-area-inset-top,0px) + 96px)}
+ /* phones: two boards, then the text below them, never on top */
+ .matd-boards{top:calc(env(safe-area-inset-top,0px) + 196px)}
+ .matd-grp img:nth-child(n+3){display:none}
+ .matd-grp img:nth-child(even){margin-top:16px;margin-bottom:0}
+ .matd-copy{bottom:calc(env(safe-area-inset-bottom,0px) + 28px)}
+ .matd-cp{gap:14px}
+ .matd-txt{font-size:17px;line-height:1.35}
+ .matd-chips{gap:6px}
+ .matd-chips li{font-size:9.5px;letter-spacing:.12em;padding:7px 10px}
 }
+@media (max-width:860px) and (min-height:720px){.matd-grp img:nth-child(n+3){display:block}}
 @media (prefers-reduced-motion:reduce){.matd-word,.matd-word>span,.matd-word i,.matd-grp img,.matd-cp{transition:none}}
 
 /* testimonials: the giant keyword */
