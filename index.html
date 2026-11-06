@@ -1027,6 +1027,8 @@ html.lang-out body{opacity:0;transition:opacity .25s ease}
 .matd-grp.vis img:nth-child(2){transition-delay:.08s}.matd-grp.vis img:nth-child(3){transition-delay:.16s}.matd-grp.vis img:nth-child(4){transition-delay:.24s}
 .matd-copy{position:absolute;left:var(--pad);bottom:clamp(40px,9vh,96px);width:min(400px,34vw)}
 .matd-cp{position:absolute;left:0;bottom:0;width:100%;display:flex;flex-direction:column;gap:18px;opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .9s cubic-bezier(.16,1,.3,1);pointer-events:none}
+/* desktop: the text sits right under the step title, read as one unit */
+@media (min-width:861px){.matd-copy{bottom:auto;top:calc(clamp(112px,15vh,160px) + clamp(64px,8.4vw,140px) * 1.2 + clamp(24px,4vh,48px))}.matd-cp{bottom:auto;top:0}}
 .matd-cp.vis{opacity:1;transform:none;transition-delay:.25s;pointer-events:auto}
 .matd-txt{margin:0;font:400 clamp(18px,1.35vw,22px)/1.4 var(--f-display);max-width:34ch}
 .matd-chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
