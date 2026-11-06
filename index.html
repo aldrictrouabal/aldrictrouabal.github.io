@@ -1009,7 +1009,7 @@ html.lang-out body{opacity:0;transition:opacity .25s ease}
 .matd-st{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;max-width:1700px;margin:0 auto}
 .matd-word{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:baseline;font:400 clamp(110px,19vw,320px)/1 var(--f-display);letter-spacing:-.03em;white-space:nowrap;padding:.08em 0;transition:transform 1.2s cubic-bezier(.16,1,.3,1),left 1.2s cubic-bezier(.16,1,.3,1),top 1.2s cubic-bezier(.16,1,.3,1),font-size 1.2s cubic-bezier(.16,1,.3,1)}
 .matd-word>span{display:inline-block;overflow-x:clip;overflow-y:visible;max-width:4em;padding-left:.04em;transition:opacity .7s ease,max-width 1.2s cubic-bezier(.16,1,.3,1)}
-.matd-word i{font-style:italic;font-size:.44em;letter-spacing:-.01em;display:inline-block;padding-right:.18em;max-width:0;opacity:0;overflow-x:clip;overflow-y:visible;vertical-align:baseline;transition:max-width 1.2s cubic-bezier(.16,1,.3,1),opacity .8s ease .15s}
+.matd-word i{font-style:italic;font-size:.44em;letter-spacing:-.01em;display:inline-block;padding-right:.18em;max-width:0;opacity:0;overflow-x:clip;overflow-y:visible;vertical-align:baseline;white-space:nowrap;transition:max-width 1.5s cubic-bezier(.65,0,.25,1),opacity 1.1s ease .2s}
 .matd-word>span.colon{display:inline-block;position:relative;width:.12em;height:.48em;margin:0 .08em;overflow:visible;padding:0}
 .matd-word .colon s{position:absolute;left:0;width:.12em;height:.12em;border-radius:50%;background:currentColor}
 .matd-word .colon s:first-child{top:0}.matd-word .colon s:last-child{bottom:0}
@@ -1018,7 +1018,7 @@ html.lang-out body{opacity:0;transition:opacity .25s ease}
 .matd[data-s] .matd-sub{opacity:0}
 .matd[data-s] .matd-word>span{max-width:0;opacity:0}
 .matd[data-s="0"] .matd-word>.l0,.matd[data-s="1"] .matd-word>.l1,.matd[data-s="2"] .matd-word>.l2{max-width:6em;opacity:1}
-.matd[data-s="0"] .l0 i,.matd[data-s="1"] .l1 i,.matd[data-s="2"] .l2 i{max-width:5em;opacity:1}
+.matd[data-s="0"] .l0 i,.matd[data-s="1"] .l1 i,.matd[data-s="2"] .l2 i{max-width:var(--w,5em);opacity:1}
 .matd-boards{position:absolute;right:var(--pad);top:50%;transform:translateY(-50%);width:min(56vw,960px);display:grid;gap:clamp(10px,1.2vw,18px);pointer-events:none}
 .matd-grp{grid-area:1/1;display:grid;grid-template-columns:1fr 1fr;gap:inherit}
 .matd-grp img{width:100%;aspect-ratio:16/10;object-fit:cover;background:#fff;box-shadow:0 24px 50px -28px rgba(20,20,19,.4);opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform 1s cubic-bezier(.16,1,.3,1)}
@@ -1037,13 +1037,16 @@ html.lang-out body{opacity:0;transition:opacity .25s ease}
 .matd+.quotes{padding-top:clamp(40px,6vh,72px)}
 /* opening: AT:D unfolds in place into Analyse, Tell: Design, so the name explains itself */
 .matd:not([data-s]) .matd-word{font-size:clamp(64px,9.6vw,172px)}
-.matd.in:not([data-s]) .matd-word i{max-width:5em;opacity:1}
-.matd.in:not([data-s]) .l0 i{transition-delay:.25s}.matd.in:not([data-s]) .l1 i{transition-delay:.55s}.matd.in:not([data-s]) .l2 i{transition-delay:.85s}
+.matd.in:not([data-s]) .matd-word i{max-width:var(--w,5em);opacity:1}
+.matd.in:not([data-s]) .l0 i{transition-delay:.15s,.35s}.matd.in:not([data-s]) .l1 i{transition-delay:.3s,.5s}.matd.in:not([data-s]) .l2 i{transition-delay:.45s,.65s}
 .matd-sub{bottom:auto;top:calc(50% - clamp(84px,9.6vw,170px))}
 .matd-cue{position:absolute;left:50%;bottom:clamp(36px,8vh,80px);transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--ink-soft);opacity:0;transition:opacity .6s ease}
 .matd-cue i{display:block;width:1px;height:44px;background:var(--line);position:relative;overflow:hidden}
 .matd-cue i::after{content:"";position:absolute;left:0;top:-100%;width:1px;height:100%;background:var(--ink);animation:cue 2.2s var(--ease) infinite}
-.matd.in:not([data-s]) .matd-cue{opacity:1;transition-delay:1.4s}
+.matd.in:not([data-s]) .matd-cue{opacity:1;transition-delay:1.6s}
+/* the cue stays through Analyse, Tell and Design, tucked bottom right */
+.matd[data-s] .matd-cue{opacity:1;left:auto;right:var(--pad);transform:none;bottom:clamp(22px,4vh,40px);transition-delay:.5s}
+.matd[data-s] .matd-cue i{height:34px}
 @media (max-width:860px){
  .matd{height:330vh}
  .matd-boards{left:var(--pad);right:var(--pad);width:auto;top:clamp(170px,28vh,240px);transform:none}
@@ -1063,6 +1066,9 @@ html.lang-out body{opacity:0;transition:opacity .25s ease}
  .matd-txt{font-size:17px;line-height:1.35}
  .matd-chips{gap:6px}
  .matd-chips li{font-size:9.5px;letter-spacing:.12em;padding:7px 10px}
+ .matd[data-s] .matd-copy{right:calc(var(--pad) + 26px)}
+ .matd[data-s] .matd-cue{bottom:calc(env(safe-area-inset-bottom,0px) + 30px)}
+ .matd[data-s] .matd-cue span{display:none}
 }
 @media (max-width:860px) and (max-height:620px){.matd-grp img:nth-child(n+3){display:none}}
 @media (prefers-reduced-motion:reduce){.matd-word,.matd-word>span,.matd-word i,.matd-grp img,.matd-cp{transition:none}}
@@ -4432,6 +4438,9 @@ function spaceFrame() {
 /* method: AT:D unfolds, one step per stretch of scroll */
 (() => {
   document.querySelectorAll('[data-matd]').forEach(A => {
+    /* each word opens exactly to its own width, so the unfold runs at one even pace */
+    const fit = () => A.querySelectorAll('.matd-word i').forEach(i => { const mw = i.style.maxWidth; i.style.maxWidth = 'none'; const w = i.getBoundingClientRect().width / parseFloat(getComputedStyle(i).fontSize); i.style.maxWidth = mw; i.style.setProperty('--w', (w + .02).toFixed(3) + 'em'); });
+    fit(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
     const G = [...A.querySelectorAll('.matd-grp')], C = [...A.querySelectorAll('.matd-cp')], P = [...A.querySelectorAll('.matd-prog span')];
     let s0 = 'x';
     const tick = () => { if (!A.offsetHeight) return; const r = A.getBoundingClientRect(), p = Math.min(.9999, Math.max(0, -r.top / (r.height - innerHeight))); A.classList.toggle('in', r.top < innerHeight * .55);
