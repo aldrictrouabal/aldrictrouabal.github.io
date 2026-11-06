@@ -4386,29 +4386,34 @@ function spaceFrame() {
   const inner = el => { for (; el && el !== document.body && el !== root; el = el.parentElement) { const o = getComputedStyle(el).overflowY; if ((o === 'auto' || o === 'scroll') && el.scrollHeight > el.clientHeight + 1) return true; } return false; };
   const locked = () => getComputedStyle(root).overflowY === 'hidden' || getComputedStyle(document.body).overflowY === 'hidden';
   /* a soft spring: the page eases into motion, glides, then eases to a stop */
-  let vel = 0, last = 0;
-  const step = now => { const n = Math.min(4, Math.max(1, Math.round((now - (last || now - 16.7)) / 16.7))); last = now;
-    for (let i = 0; i < n; i++) { vel += (target - cur) * 0.012; vel *= 0.78; cur += vel; }
+  let vel = 0, last = 0, acc = 0, wrote = scrollY;
+  const stop = () => { if (raf) cancelAnimationFrame(raf); raf = 0; vel = 0; last = 0; target = cur = scrollY; };
+  const step = now => {
+    /* something else moved the page (a link, the scrollbar, a jump): hand over instead of fighting it */
+    if (Math.abs(scrollY - wrote) > 160) { stop(); return; }
+    /* fixed small physics steps whatever the screen rate, so uneven frames never show as jolts */
+    acc += Math.min(70, last ? now - last : 16.7); last = now;
+    for (; acc >= 4.1667; acc -= 4.1667) { vel += (target - cur) * 0.003; vel *= 0.9398; cur += vel * 0.25; }
     if (Math.abs(target - cur) < 0.5 && Math.abs(vel) < 0.2) { cur = target; vel = 0; last = 0; raf = 0; } else raf = requestAnimationFrame(step);
-    scrollTo(0, cur); };
-  /* trackpads already glide natively: smoothing them again makes them stutter, so a gesture stream that looks like a trackpad is left to the browser */
-  /* a mouse wheel sends whole, repeated steps (Chrome 100 or 120, Firefox about 48 to 114); a trackpad sends small, changing or fractional ones */
-  let pad = false, lastT = 0, lastA = 0;
+    wrote = cur; scrollTo(0, cur); };
+  /* trackpads already glide natively: smoothing them again makes them stutter, so a gesture that starts like a trackpad is left to the browser.
+     A mouse wheel sends whole steps (Chrome 100 or 120, Firefox about 48 to 114); a trackpad starts with small or fractional ones. The choice holds for the whole gesture. */
+  let pad = false, lastT = 0;
   addEventListener('wheel', e => {
     const now = e.timeStamp, a = Math.abs(e.deltaY), whole = Math.abs(a - Math.round(a)) < 0.01;
     const notch = e.deltaMode !== 0 || (a >= 15 && whole && Math.abs(e.deltaX) < 1);
-    if (now - lastT > 220) pad = !notch;
-    else if (!notch || (e.deltaMode === 0 && lastA && Math.abs(a - lastA) > 0.5 && a < 60)) pad = true;
-    lastT = now; lastA = a;
-    if (pad) { if (raf) { cancelAnimationFrame(raf); raf = 0; } return; }
+    if (now - lastT > 220) { pad = !notch; if (pad && raf) stop(); }
+    lastT = now;
+    if (pad) return;
     if (e.ctrlKey || e.defaultPrevented || Math.abs(e.deltaX) > Math.abs(e.deltaY) || inner(e.target) || locked()) return;
     e.preventDefault();
     const d = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1), m = 1.6;
-    if (!raf) { target = cur = scrollY; vel = 0; last = 0; }
+    if (!raf) { target = cur = wrote = scrollY; vel = 0; last = 0; }
     target = Math.max(0, Math.min(max(), target + d * m));
     if (!raf) raf = requestAnimationFrame(step);
   }, { passive: false });
-  addEventListener('scroll', () => { if (raf && Math.abs(scrollY - cur) > 3) { cancelAnimationFrame(raf); raf = 0; vel = 0; last = 0; } if (!raf) target = cur = scrollY; }, { passive: true });
+  addEventListener('scroll', () => { if (!raf) target = cur = wrote = scrollY; }, { passive: true });
+  ['pointerdown', 'keydown', 'touchstart', 'hashchange'].forEach(t => addEventListener(t, () => { if (raf) stop(); }, { passive: true }));
 })();
 
 
