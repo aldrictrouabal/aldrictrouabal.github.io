@@ -4383,7 +4383,7 @@ function spaceFrame() {
   const root = document.documentElement, max = () => root.scrollHeight - innerHeight;
   const inner = el => { for (; el && el !== document.body && el !== root; el = el.parentElement) { const o = getComputedStyle(el).overflowY; if ((o === 'auto' || o === 'scroll') && el.scrollHeight > el.clientHeight + 1) return true; } return false; };
   const locked = () => getComputedStyle(root).overflowY === 'hidden' || getComputedStyle(document.body).overflowY === 'hidden';
-  const step = () => { cur += (target - cur) * 0.1; if (Math.abs(target - cur) < 0.6) { cur = target; raf = 0; } else raf = requestAnimationFrame(step); scrollTo(0, cur); };
+  const step = () => { cur += (target - cur) * 0.07; if (Math.abs(target - cur) < 0.6) { cur = target; raf = 0; } else raf = requestAnimationFrame(step); scrollTo(0, cur); };
   /* trackpads already glide natively: smoothing them again makes them stutter, so a gesture stream that looks like a trackpad is left to the browser */
   let pad = false, lastT = 0;
   addEventListener('wheel', e => {
@@ -4393,7 +4393,7 @@ function spaceFrame() {
     if (pad) { if (raf) { cancelAnimationFrame(raf); raf = 0; } return; }
     if (e.ctrlKey || e.defaultPrevented || Math.abs(e.deltaX) > Math.abs(e.deltaY) || inner(e.target) || locked()) return;
     e.preventDefault();
-    const d = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1), m = 2.2;
+    const d = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1), m = 1.6;
     if (!raf) target = cur = scrollY;
     target = Math.max(0, Math.min(max(), target + d * m));
     if (!raf) raf = requestAnimationFrame(step);
