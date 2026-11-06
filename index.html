@@ -4445,7 +4445,14 @@ function spaceFrame() {
 (() => {
   document.querySelectorAll('[data-matd]').forEach(A => {
     /* each word opens exactly to its own width, so the unfold runs at one even pace */
-    const fit = () => A.querySelectorAll('.matd-word i').forEach(i => { const mw = i.style.maxWidth; i.style.maxWidth = 'none'; const w = i.getBoundingClientRect().width / parseFloat(getComputedStyle(i).fontSize); i.style.maxWidth = mw; i.style.setProperty('--w', (w + .02).toFixed(3) + 'em'); });
+    const fit = () => A.querySelectorAll('.matd-word i').forEach(i => {
+      /* measure a free copy of the word, never the clipped one, so every browser gets the true width */
+      const c = getComputedStyle(i), m = document.createElement('span');
+      m.textContent = i.textContent;
+      m.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap;font-style:italic;font-family:' + c.fontFamily + ';font-size:' + c.fontSize + ';font-weight:' + c.fontWeight + ';letter-spacing:' + c.letterSpacing + ';padding-right:' + c.paddingRight;
+      document.body.appendChild(m); let w = m.getBoundingClientRect().width / parseFloat(c.fontSize); m.remove();
+      if (!(w > .8)) w = 5;
+      i.style.setProperty('--w', (w + .04).toFixed(3) + 'em'); });
     fit(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
     const G = [...A.querySelectorAll('.matd-grp')], C = [...A.querySelectorAll('.matd-cp')], P = [...A.querySelectorAll('.matd-prog span')];
     let s0 = 'x';
