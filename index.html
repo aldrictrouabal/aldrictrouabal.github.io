@@ -4392,11 +4392,14 @@ function spaceFrame() {
     if (Math.abs(target - cur) < 0.5 && Math.abs(vel) < 0.2) { cur = target; vel = 0; last = 0; raf = 0; } else raf = requestAnimationFrame(step);
     scrollTo(0, cur); };
   /* trackpads already glide natively: smoothing them again makes them stutter, so a gesture stream that looks like a trackpad is left to the browser */
-  let pad = false, lastT = 0;
+  /* a mouse wheel sends whole, repeated steps (Chrome 100 or 120, Firefox about 48 to 114); a trackpad sends small, changing or fractional ones */
+  let pad = false, lastT = 0, lastA = 0;
   addEventListener('wheel', e => {
-    const now = e.timeStamp, notch = e.deltaMode !== 0 || (Math.abs(e.deltaY) >= 40 && (!e.wheelDeltaY || Math.abs(e.wheelDeltaY) % 120 === 0));
-    if (now - lastT > 220) pad = !notch; else if (!notch) pad = true;
-    lastT = now;
+    const now = e.timeStamp, a = Math.abs(e.deltaY), whole = Math.abs(a - Math.round(a)) < 0.01;
+    const notch = e.deltaMode !== 0 || (a >= 15 && whole && Math.abs(e.deltaX) < 1);
+    if (now - lastT > 220) pad = !notch;
+    else if (!notch || (e.deltaMode === 0 && lastA && Math.abs(a - lastA) > 0.5 && a < 60)) pad = true;
+    lastT = now; lastA = a;
     if (pad) { if (raf) { cancelAnimationFrame(raf); raf = 0; } return; }
     if (e.ctrlKey || e.defaultPrevented || Math.abs(e.deltaX) > Math.abs(e.deltaY) || inner(e.target) || locked()) return;
     e.preventDefault();
