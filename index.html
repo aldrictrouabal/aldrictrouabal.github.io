@@ -1035,12 +1035,23 @@ html.lang-out body{opacity:0;transition:opacity .25s ease}
 .matd[data-s] .matd-prog{opacity:1}
 .matd-prog span{opacity:.3;transition:opacity .5s}.matd-prog span.vis{opacity:1}
 .matd+.quotes{padding-top:clamp(40px,6vh,72px)}
+/* opening: AT:D unfolds in place into Analyse, Tell: Design, so the name explains itself */
+.matd:not([data-s]) .matd-word{font-size:clamp(64px,9.6vw,172px)}
+.matd.in:not([data-s]) .matd-word i{max-width:5em;opacity:1}
+.matd.in:not([data-s]) .l0 i{transition-delay:.25s}.matd.in:not([data-s]) .l1 i{transition-delay:.55s}.matd.in:not([data-s]) .l2 i{transition-delay:.85s}
+.matd-sub{bottom:auto;top:calc(50% - clamp(84px,9.6vw,170px))}
+.matd-cue{position:absolute;left:50%;bottom:clamp(36px,8vh,80px);transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--ink-soft);opacity:0;transition:opacity .6s ease}
+.matd-cue i{display:block;width:1px;height:44px;background:var(--line);position:relative;overflow:hidden}
+.matd-cue i::after{content:"";position:absolute;left:0;top:-100%;width:1px;height:100%;background:var(--ink);animation:cue 2.2s var(--ease) infinite}
+.matd.in:not([data-s]) .matd-cue{opacity:1;transition-delay:1.4s}
 @media (max-width:860px){
  .matd{height:330vh}
  .matd-boards{left:var(--pad);right:var(--pad);width:auto;top:clamp(170px,28vh,240px);transform:none}
  .matd-copy{width:auto;right:var(--pad)}
  .matd-word{font-size:clamp(90px,26vw,160px)}
  .matd[data-s] .matd-word{font-size:clamp(52px,14vw,84px)}
+ .matd:not([data-s]) .matd-word{font-size:clamp(38px,11.5vw,84px)}
+ .matd-sub{top:calc(50% - 64px)}
  .matd-prog{top:calc(env(safe-area-inset-top,0px) + 76px)}
  .matd[data-s] .matd-word{top:calc(env(safe-area-inset-top,0px) + 96px)}
  /* phones: two boards, then the text below them, never on top */
@@ -1191,7 +1202,8 @@ addEventListener('keydown',end,{once:true});I.addEventListener('pointerdown',end
     <div class="matd-st">
       <div class="matd-prog label"><span>01 Analyse</span><span>02 Tell</span><span>03 Design</span></div>
       <div class="matd-word" aria-label="Analyse, Tell: Design"><span class="l0">A<i>nalyse</i></span><span class="l1">T<i>ell</i></span><span class="colon"><s></s><s></s></span><span class="l2">D<i>esign</i></span></div>
-      <p class="matd-sub label">Method · Analyse, Tell: Design</p>
+      <p class="matd-sub label">Method</p>
+      <div class="matd-cue label" aria-hidden="true"><span>Scroll</span><i></i></div>
       <div class="matd-boards" aria-hidden="true"><div class="matd-grp" data-k="0"><img src="assets/img/analyse-pk-1.webp" alt="" loading="lazy"><img src="assets/img/analyse-pk-2.webp" alt="" loading="lazy"><img src="assets/img/analyse-pk-3.webp" alt="" loading="lazy"><img src="assets/img/analyse-pk-4.webp" alt="" loading="lazy"></div><div class="matd-grp" data-k="1"><img src="assets/img/tell-pk-1.webp" alt="" loading="lazy"><img src="assets/img/tell-pk-2.webp" alt="" loading="lazy"><img src="assets/img/tell-pk-4.webp" alt="" loading="lazy"><img src="assets/img/tell-pk-5.webp" alt="" loading="lazy"></div><div class="matd-grp" data-k="2"><img src="assets/img/design-full-15.webp" alt="" loading="lazy"><img src="assets/img/design-full-12.webp" alt="" loading="lazy"><img src="assets/img/design-full-6.webp" alt="" loading="lazy"><img src="assets/img/design-full-14.webp" alt="" loading="lazy"></div></div>
       <div class="matd-copy"><div class="matd-cp" data-k="0"><p class="matd-txt">The house, its history, its craft, its market, and the person who will live the moment.</p><ul class="matd-chips"><li>House &amp; heritage reading</li><li>Market and competitive landscape</li><li>The client and the moment</li><li>Brief reframing</li></ul></div><div class="matd-cp" data-k="1"><p class="matd-txt">Nothing is drawn before it is named. One story, approved before the first sketch.</p><ul class="matd-chips"><li>The concept story</li><li>Moodboards &amp; references</li><li>Naming the idea</li><li>Sign-off before the first sketch</li></ul></div><div class="matd-cp" data-k="2"><p class="matd-txt">Form, material and craft give it a body, all the way to the final image.</p><ul class="matd-chips"><li>Sketches &amp; 3D</li><li>Materials &amp; finishes</li><li>Renders &amp; films</li><li>Production and roll-out files</li></ul></div></div>
     </div>
@@ -4422,7 +4434,7 @@ function spaceFrame() {
   document.querySelectorAll('[data-matd]').forEach(A => {
     const G = [...A.querySelectorAll('.matd-grp')], C = [...A.querySelectorAll('.matd-cp')], P = [...A.querySelectorAll('.matd-prog span')];
     let s0 = 'x';
-    const tick = () => { if (!A.offsetHeight) return; const r = A.getBoundingClientRect(), p = Math.min(.9999, Math.max(0, -r.top / (r.height - innerHeight)));
+    const tick = () => { if (!A.offsetHeight) return; const r = A.getBoundingClientRect(), p = Math.min(.9999, Math.max(0, -r.top / (r.height - innerHeight))); A.classList.toggle('in', r.top < innerHeight * .55);
       const s = p < .12 ? -1 : Math.min(2, Math.floor((p - .12) / .29)); if (s === s0) return; s0 = s;
       if (s < 0) A.removeAttribute('data-s'); else A.dataset.s = s;
       [G, C, P].forEach(a => a.forEach((e, i) => e.classList.toggle('vis', i === s))); };
