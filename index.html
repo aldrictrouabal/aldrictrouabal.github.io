@@ -109,10 +109,10 @@ html.intro-run,html.intro-run body{overflow:hidden}
 .s-i{position:absolute;inset:0;overflow:hidden;background:var(--stone-deep);clip-path:inset(100% 0 0 0);transition:clip-path 1.1s cubic-bezier(.65,0,.2,1) var(--d,0ms)}
 .srow.in .s-i{clip-path:inset(0 0 0 0)}
 /* gliding rows on their own layers, so scrolling past them stays fluid */
-.s-strip,.s-t{will-change:transform}.s-t{contain:layout paint}
+.s-strip,.s-t{will-change:transform}.s-i{contain:paint}
 .s-i img,.s-i video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .s-i video{opacity:0;transition:opacity .6s ease}.s-t.vid video{opacity:1}
-.s-cap{position:absolute;left:0;right:0;top:calc(100% + 10px);display:flex;justify-content:space-between;gap:12px;font:400 11px/1.3 var(--f-body);letter-spacing:.02em;opacity:0;transition:opacity .45s ease;pointer-events:none}
+.s-cap{position:absolute;left:0;right:0;top:calc(100% + 12px);display:flex;justify-content:space-between;gap:16px;font:400 13px/1.35 var(--f-body);letter-spacing:.02em;opacity:0;transition:opacity .45s ease;pointer-events:none}
 .s-cap .s-b{font-weight:500;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
 .s-cap .s-ch{text-align:right;color:var(--ink-soft)}
 .s-i img{transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
