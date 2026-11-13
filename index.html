@@ -1129,7 +1129,8 @@ html[lang="fr"] [data-priv]{--priv-label:"Projet confidentiel"}
 function path(){var h=location.hash.replace(/^#\/?/,'').split('?')[0];return '/'+h}
 function pv(){if(!window.umami)return;var p=path();if(p===last)return;last=p;umami.track(function(d){return Object.assign({},d,{url:p,title:document.title})})}
 function boot(){if(window.umami)pv();else if(n++<20)setTimeout(boot,300)}
-addEventListener('load',boot);addEventListener('hashchange',function(){setTimeout(pv,400)});
+addEventListener('load',boot);['hashchange','popstate'].forEach(function(k){addEventListener(k,function(){setTimeout(pv,400)})});
+['pushState','replaceState'].forEach(function(k){var o=history[k];history[k]=function(){var r=o.apply(this,arguments);setTimeout(pv,400);return r}});
 document.addEventListener('click',function(e){if(!window.umami||!e.target.closest)return;var a=e.target.closest('a[href]');if(!a)return;var h=a.getAttribute('href');
 if(h.indexOf('mailto:')===0)umami.track('Clic e-mail',{page:path()});else if(h.indexOf('linkedin.com')>-1)umami.track('Clic LinkedIn',{page:path()})},true)})();</script>
 </head>
