@@ -1124,6 +1124,14 @@ html[lang="fr"] [data-priv]{--priv-label:"Projet confidentiel"}
 [data-priv] .icard-f{position:relative;overflow:hidden}
 [data-priv] .row-thumb,[data-priv] .row-strip img{filter:blur(16px)}
 </style>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="3d549ff5-b50a-4826-be5b-36f6d54518e8" data-auto-track="false"></script>
+<script>(function(){var last=null,n=0;
+function path(){var h=location.hash.replace(/^#\/?/,'').split('?')[0];return '/'+h}
+function pv(){if(!window.umami)return;var p=path();if(p===last)return;last=p;umami.track(function(d){return Object.assign({},d,{url:p,title:document.title})})}
+function boot(){if(window.umami)pv();else if(n++<20)setTimeout(boot,300)}
+addEventListener('load',boot);addEventListener('hashchange',function(){setTimeout(pv,400)});
+document.addEventListener('click',function(e){if(!window.umami||!e.target.closest)return;var a=e.target.closest('a[href]');if(!a)return;var h=a.getAttribute('href');
+if(h.indexOf('mailto:')===0)umami.track('Clic e-mail',{page:path()});else if(h.indexOf('linkedin.com')>-1)umami.track('Clic LinkedIn',{page:path()})},true)})();</script>
 </head>
 <body>
 
