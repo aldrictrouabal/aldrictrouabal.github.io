@@ -4429,6 +4429,68 @@ function spaceFrame() {
   });
 })();
 
+/* damped page scroll: each wheel notch travels a little further and glides to a stop.
+   Safety net: the glide runs on the page's own script, so if this computer can't keep up (a notch that doesn't move the page, or frames that keep stalling) the wheel goes back to the browser for the rest of the visit. */
+(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || matchMedia('(pointer: coarse)').matches) return;
+  let target = scrollY, cur = scrollY, raf = 0;
+  const root = document.documentElement, max = () => root.scrollHeight - innerHeight;
+  const inner = el => { for (; el && el !== document.body && el !== root; el = el.parentElement) { const o = getComputedStyle(el).overflowY; if ((o === 'auto' || o === 'scroll') && el.scrollHeight > el.clientHeight + 1) return true; } return false; };
+  const locked = () => getComputedStyle(root).overflowY === 'hidden' || getComputedStyle(document.body).overflowY === 'hidden';
+  /* a soft spring: the page eases into motion, glides, then eases to a stop */
+  let vel = 0, last = 0, acc = 0, wrote = scrollY;
+  const stop = () => { if (raf) cancelAnimationFrame(raf); raf = 0; vel = 0; last = 0; target = cur = scrollY; };
+  /* hand the wheel back to the browser: land where the glide was heading, then never intercept again */
+  let off = false, frames = 0, slow = 0, run = 0;
+  const handBack = () => {
+    if (off) return; off = true;
+    const t = target; stop();
+    removeEventListener('wheel', onWheel, opt);
+    if (Math.abs(scrollY - t) > 1) scrollTo(0, t);
+    root.dataset.wheel = 'native';
+  };
+  const step = now => {
+    /* something else moved the page (a link, the scrollbar, a jump): hand over instead of fighting it */
+    if (Math.abs(scrollY - wrote) > 160) { stop(); return; }
+    /* frame health: three stalled frames in a row, or too many over the visit, means this machine can't glide */
+    if (last) {
+      const dt = now - last; frames++;
+      if (dt > 100) { slow++; run++; } else run = 0;
+      if (run >= 3 || (frames >= 40 && slow / frames > 0.2)) { handBack(); return; }
+    }
+    /* fixed small physics steps whatever the screen rate, so uneven frames never show as jolts */
+    acc += Math.min(70, last ? now - last : 16.7); last = now;
+    for (; acc >= 4.1667; acc -= 4.1667) { vel += (target - cur) * 0.003; vel *= 0.9398; cur += vel * 0.25; }
+    if (Math.abs(target - cur) < 0.5 && Math.abs(vel) < 0.2) { cur = target; vel = 0; last = 0; raf = 0; } else raf = requestAnimationFrame(step);
+    wrote = cur; scrollTo(0, cur); };
+  /* trackpads already glide natively: smoothing them again makes them stutter, so a gesture that starts like a trackpad is left to the browser.
+     A mouse wheel sends whole steps (Chrome 100 or 120, Firefox about 48 to 114); a trackpad starts with small or fractional ones. The choice holds for the whole gesture. */
+  let pad = false, lastT = 0;
+  const opt = { passive: false };
+  const onWheel = e => {
+    const now = e.timeStamp, a = Math.abs(e.deltaY), whole = Math.abs(a - Math.round(a)) < 0.01;
+    const notch = e.deltaMode !== 0 || (a >= 15 && whole && Math.abs(e.deltaX) < 1);
+    if (now - lastT > 220) { pad = !notch; if (pad && raf) stop(); }
+    lastT = now;
+    if (pad) return;
+    if (e.ctrlKey || e.defaultPrevented || Math.abs(e.deltaX) > Math.abs(e.deltaY) || inner(e.target) || locked()) return;
+    e.preventDefault();
+    const d = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1), m = 1.6;
+    if (!raf) {
+      target = cur = wrote = scrollY; vel = 0; last = 0;
+      /* watchdog: a notch that hasn't moved the page a quarter of a second later means the glide is stuck */
+      const y0 = scrollY;
+      setTimeout(() => { if (!off && Math.abs(scrollY - y0) < 2 && Math.abs(target - y0) > 2) handBack(); }, 250);
+    }
+    target = Math.max(0, Math.min(max(), target + d * m));
+    if (!raf) raf = requestAnimationFrame(step);
+  };
+  addEventListener('wheel', onWheel, opt);
+  addEventListener('scroll', () => { if (!raf) target = cur = wrote = scrollY; }, { passive: true });
+  ['pointerdown', 'keydown', 'touchstart', 'hashchange'].forEach(t => addEventListener(t, () => { if (raf) stop(); }, { passive: true }));
+})();
+
+
 /* method: AT:D unfolds, one step per stretch of scroll */
 (() => {
   document.querySelectorAll('[data-matd]').forEach(A => {
